@@ -7,7 +7,7 @@ import java.util.*;
 public class ObjectBox<T extends Number> {
     private NavigableSet<T> storage = new TreeSet<>();
 
-    ObjectBox(Object[] data) {
+    protected ObjectBox(Object[] data) {
         for (Object d : data) {
             try {
                 // first part of task. Raise exception if wrong class parent.
@@ -18,24 +18,29 @@ public class ObjectBox<T extends Number> {
         }
     }
 
-    double summator() {
+    protected double summator() {
         double result = 0;
-        for (T current : this.storage) {
-            result += (double) current;
+        for (Object current : this.storage) {
+            result += getDoubleValue(current);
         }
         return result;
     }
 
-    public List<Double> splitter(int divider) {
+    protected List<Double> splitter(int divider) {
         ArrayList<Double> result = new ArrayList<>();
-        for (T current : this.storage) {
-                result.add((double) current / divider);
+        for (Object current : this.storage) {
+            result.add(getDoubleValue(current) / divider);
         }
         return result;
+    }
+
+    // helper method for avoiding duplications
+    private double getDoubleValue(Object current) {
+        return (double) ((Integer) current) ;
     }
 
     // У класса должен быть метод addObject, добавляющий объект в коллекцию.
-    public boolean addObject(T obj) {
+    protected boolean addObject(T obj) {
         boolean result = false;
         if (obj != null) {
             result = this.storage.add(obj); // if obj exists false will be returned.
@@ -44,25 +49,16 @@ public class ObjectBox<T extends Number> {
     }
 
     // У класса должен быть метод deleteObject, проверяющий наличие объекта в коллекции.
-    public boolean deleteObject(T obj) {
+    protected boolean deleteObject(T obj) {
         return this.storage.remove(obj); // remove if exists, as expected from method name
     }
 
     // Должен быть метод dump, выводящий содержимое коллекции в строку.
-    public String dump() {
-        return this.storage.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ObjectBox<?> objectBox = (ObjectBox<?>) o;
-        return Objects.equals(storage, objectBox.storage);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(storage);
+    protected String dump() {
+        StringBuilder builder = new StringBuilder();
+        for (T element : this.storage) {
+            builder.append(element + ", ");
+        }
+        return builder.toString();
     }
 }

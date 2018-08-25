@@ -1,34 +1,18 @@
 package com.github.artemzi.hw03;
 
+import com.github.artemzi.hw04.ObjectBox;
+
 import java.util.*;
 
-public class MathBox {
+public class MathBox extends ObjectBox {
     private NavigableSet<Integer> storage = new TreeSet<>();
 
-    MathBox(Integer[] data) {
-        this.storage.addAll(Arrays.asList(data));
+    public MathBox(Integer[] data) {
+        super(data);
     }
 
-    int summator() {
-        return this.storage.stream().mapToInt(Integer::intValue).sum();
-    }
-
-    ArrayList<Double> splitter(int divider) {
-        ArrayList<Double> result = new ArrayList<>();
-        for (Integer current : this.storage) {
-            result.add((double) current / divider);
-        }
-        return result;
-    }
-
-    /**
-     * Method return true if succeed or false
-     * @param  digit, object for removing
-     * @return boolean
-     * */
-    boolean removeElementIfExists(Integer digit) {
-        // remove, is a method from a collection and it already contains all necessary checks
-        return this.storage.remove(digit);
+    public boolean removeElementIfExists(Integer digit) { // For now method can be removed and used from parent
+        return super.deleteObject(digit);
     }
 
     @Override
