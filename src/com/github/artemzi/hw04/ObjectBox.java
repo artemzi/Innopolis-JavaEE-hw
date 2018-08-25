@@ -34,6 +34,25 @@ public class ObjectBox<T extends Number> {
         return result;
     }
 
+    // У класса должен быть метод addObject, добавляющий объект в коллекцию.
+    public boolean addObject(T obj) {
+        boolean result = false;
+        if (obj != null) {
+            result = this.storage.add(obj); // if obj exists false will be returned.
+        }
+        return result;
+    }
+
+    // У класса должен быть метод deleteObject, проверяющий наличие объекта в коллекции.
+    public boolean deleteObject(T obj) {
+        return this.storage.remove(obj); // remove if exists, as expected from method name
+    }
+
+    // Должен быть метод dump, выводящий содержимое коллекции в строку.
+    public String dump() {
+        return this.storage.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
