@@ -36,8 +36,9 @@ public class Main {
         boolean savedDev1 = worker.save(developer1);
         boolean savedDev2 = worker.save(developer2);
         assert savedDev1 && savedDev2;
-        worker.changeAllWork(Jobs.CTO, Jobs.MANAGER);
-        worker.changeAllWork(Jobs.DEVELOPER, Jobs.CTO);
+        boolean changed1 = worker.changeAllWork(Jobs.CTO, Jobs.MANAGER);
+        boolean changed2 = worker.changeAllWork(Jobs.DEVELOPER, Jobs.CTO);
+        assert changed1 && changed2;
         System.out.println("[jobs casting] " + worker.getDatabaseFileContent());
     }
 }
