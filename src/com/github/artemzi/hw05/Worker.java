@@ -3,7 +3,6 @@ package com.github.artemzi.hw05;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.UnaryOperator;
 
 public class Worker implements Storable {
     private static final String FILE_NAME = "data/DATABASE";
@@ -96,14 +95,61 @@ public class Worker implements Storable {
         return false;
     }
 
+    /**
+     * Check by Employee name. If exists update
+     * if not exists add new.
+     *
+     * @param employee object for update
+     * @return true if succeed
+     */
     @Override
     public boolean saveOrUpdate(Employee employee) {
+        ArrayList<Employee> employees = getAllEmployees();
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(FILE_NAME));
+        ) {
+            if (employees == null) { // file is empty
+                employees = new ArrayList<>();
+                employees.add(employee);
+                outputStream.writeObject(employees);
+                return true;
+            } else { // file already have content
+                for (Employee e : employees) {
+                    if (e.getName().equals(employee.getName())) {
+                        e.setAge(employee.getAge());
+                        e.setJob(employee.getJob());
+                        e.setSalary(employee.getSalary());
+                        outputStream.writeObject(employees); // must write it back before return
+                        return false; // provided object already exists in file
+                    }
+                }
+                employees.add(employee);
+                outputStream.writeObject(employees);
+                return true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public boolean changeAllWork(Jobs fromJobTitle, Jobs toJobTitle) {
-        return false;
+        ArrayList<Employee> allEmployees = getAllEmployees();
+        assert allEmployees != null;
+        for (Employee e : allEmployees) {
+            if (e.getJob().equals(fromJobTitle)) {
+                e.setJob(toJobTitle);
+            }
+        }
+
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(FILE_NAME));
+        ) {
+            outputStream.writeObject(allEmployees);
+            return true;
+        } catch (IOException e1) {
+            System.err.println(e1.getMessage());
+        }
+        return true;
     }
 
     @SuppressWarnings("unchecked")

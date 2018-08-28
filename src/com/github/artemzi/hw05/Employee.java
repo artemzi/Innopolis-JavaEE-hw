@@ -21,12 +21,32 @@ public class Employee implements Serializable {
         this.job = job;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public BigDecimal getSalary() {
+        return salary;
+    }
+
     public String getName() {
         return name;
     }
 
     public Jobs getJob() {
         return job;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setSalary(BigDecimal salary) {
+        this.salary = salary;
+    }
+
+    public void setJob(Jobs job) {
+        this.job = job;
     }
 
     @Override

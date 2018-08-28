@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         Worker worker = new Worker();
 
-        Employee employee = new Employee("Mike Doe", 25, "100000", Jobs.CTO);
+        Employee employee = new Employee("Mike Doe", 25, "100000", Jobs.DEVELOPER);
         boolean saved = worker.save(employee);
         System.out.printf("%s was saved: %b\n", employee, saved);
 
@@ -12,7 +12,7 @@ public class Main {
         boolean saved1 = worker.save(employee1);
         System.out.printf("%s was saved: %b\n", employee1, saved1);
 
-        Employee employee2 = new Employee("John Smith", 25, "100000", Jobs.CTO);
+        Employee employee2 = new Employee("John Smith", 25, "100000", Jobs.MANAGER);
         boolean saved2 = worker.save(employee1);
         System.out.printf("%s was saved: %b\n", employee2, saved2);
 
@@ -26,5 +26,18 @@ public class Main {
         saved2 = worker.save(employee1);
         System.out.printf("%s was saved: %b\n", employee2, saved2);
         System.out.println("[saved back] " + worker.getDatabaseFileContent());
+
+        Employee employeeForUpdate = new Employee("Mike Doe", 45, "100", Jobs.MANAGER);
+        boolean savedUpdate = worker.save(employeeForUpdate);
+        System.out.printf("[updated] %s was saved: %b\n", employeeForUpdate, savedUpdate);
+
+        Employee developer1 = new Employee("Mike 1", 11, "10000", Jobs.DEVELOPER);
+        Employee developer2 = new Employee("Mike 2", 21, "10000", Jobs.DEVELOPER);
+        boolean savedDev1 = worker.save(developer1);
+        boolean savedDev2 = worker.save(developer2);
+        assert savedDev1 && savedDev2;
+        worker.changeAllWork(Jobs.CTO, Jobs.MANAGER);
+        worker.changeAllWork(Jobs.DEVELOPER, Jobs.CTO);
+        System.out.println("[jobs casting] " + worker.getDatabaseFileContent());
     }
 }
