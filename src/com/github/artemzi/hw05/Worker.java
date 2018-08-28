@@ -94,6 +94,11 @@ public class Worker implements Storable {
             }
         }
         allEmployees.removeAll(listForRemoving);
+        if (saveEmployeeHelper(allEmployees)) return true;
+        return false;
+    }
+
+    private boolean saveEmployeeHelper(ArrayList<Employee> allEmployees) {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(FILE_NAME));
         ) {
             outputStream.writeObject(allEmployees);
@@ -151,13 +156,7 @@ public class Worker implements Storable {
             }
         }
 
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(FILE_NAME));
-        ) {
-            outputStream.writeObject(allEmployees);
-            return true;
-        } catch (IOException e1) {
-            System.err.println(e1.getMessage());
-        }
+        if (saveEmployeeHelper(allEmployees)) return true;
         return true;
     }
 
