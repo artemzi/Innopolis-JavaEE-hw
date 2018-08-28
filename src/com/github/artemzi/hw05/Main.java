@@ -17,7 +17,14 @@ public class Main {
         System.out.printf("%s was saved: %b\n", employee2, saved2);
 
         System.out.println(worker.getDatabaseFileContent());
-        System.out.println(worker.getByName("Mike Doe"));
-        System.out.println(worker.getByJob(Jobs.CTO));
+        System.out.println("[getByName] " + worker.getByName("Mike Doe"));
+        System.out.println("[getByJob] " + worker.getByJob(Jobs.CTO));
+
+        worker.delete(employee1);
+        System.out.println("[deleted] " + worker.getDatabaseFileContent()); // object deleted
+
+        saved2 = worker.save(employee1);
+        System.out.printf("%s was saved: %b\n", employee2, saved2);
+        System.out.println("[saved back] " + worker.getDatabaseFileContent());
     }
 }

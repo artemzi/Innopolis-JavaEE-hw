@@ -3,6 +3,7 @@ package com.github.artemzi.hw05;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 public class Worker implements Storable {
     private static final String FILE_NAME = "data/DATABASE";
@@ -61,8 +62,37 @@ public class Worker implements Storable {
         return false;
     }
 
+    /**
+     * For now, equals method of Employee class check only
+     * two fields, name, and job, so objects are equals if
+     * both fields are same. This means that we can use this
+     * fields for exact much.
+     *
+     * @param employee object for deleting
+     * @return true if succeed
+     */
+    @SuppressWarnings("unchecked")
     @Override
     public boolean delete(Employee employee) {
+        // we can use here getByJob for reduce collection size, but
+        // this will require more moves with rewriting collection after removing element
+        ArrayList<Employee> allEmployees = getAllEmployees();
+        // avoiding java.util.ConcurrentModificationException
+        ArrayList<Employee> listForRemoving = new ArrayList<>();
+        assert allEmployees != null;
+        for (Employee e : allEmployees) {
+            if (e.equals(employee)) {
+                listForRemoving.add(e);
+            }
+        }
+        allEmployees.removeAll(listForRemoving);
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(FILE_NAME));
+        ) {
+            outputStream.writeObject(allEmployees);
+            return true;
+        } catch (IOException e1) {
+            System.err.println(e1.getMessage());
+        }
         return false;
     }
 
