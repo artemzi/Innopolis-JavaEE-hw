@@ -16,7 +16,7 @@ import java.util.List;
 public interface Storable {
     boolean save(Employee employee);
     boolean delete(Employee employee);
-    Employee getByName();
+    Employee getByName(String name);
     List<Employee> getByJob(Jobs job);
     boolean saveOrUpdate (Employee employee);
     boolean changeAllWork (Jobs fromJobTitle, Jobs toJobTitle);
