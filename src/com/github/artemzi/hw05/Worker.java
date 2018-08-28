@@ -9,12 +9,29 @@ public class Worker implements Storable {
 
     @Override
     public Employee getByName(String name) {
+        ArrayList<Employee> employees = getAllEmployees();
+        if (employees != null) {
+            for (Employee e : employees) {
+                if (e.getName().equals(name)) {
+                    return e;
+                }
+            }
+        }
         return null;
     }
 
     @Override
     public List<Employee> getByJob(Jobs job) {
-        return null;
+        ArrayList<Employee> employees = getAllEmployees();
+        ArrayList<Employee> result = new ArrayList<>();
+        if (employees != null) {
+            for (Employee e : employees) {
+                if (e.getJob().equals(job)) {
+                    result.add(e);
+                }
+            }
+        }
+        return result;
     }
 
     @Override
@@ -30,6 +47,7 @@ public class Worker implements Storable {
             } else { // file already have content
                 for (Employee e : employees) {
                     if (e.equals(employee)) {
+                        outputStream.writeObject(employees); // must write it back before return
                         return false; // provided object already exists in file
                     }
                 }
@@ -70,5 +88,10 @@ public class Worker implements Storable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    // debug output
+    public ArrayList<Employee> getDatabaseFileContent() {
+        return getAllEmployees();
     }
 }

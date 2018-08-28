@@ -15,5 +15,9 @@ public class Main {
         Employee employee2 = new Employee("John Smith", 25, "100000", Jobs.CTO);
         boolean saved2 = worker.save(employee1);
         System.out.printf("%s was saved: %b\n", employee2, saved2);
+
+        System.out.println(worker.getDatabaseFileContent());
+        System.out.println(worker.getByName("Mike Doe"));
+        System.out.println(worker.getByJob(Jobs.CTO));
     }
 }
