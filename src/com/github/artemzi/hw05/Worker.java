@@ -1,11 +1,20 @@
 package com.github.artemzi.hw05;
 
+import com.sun.corba.se.spi.orbutil.threadpool.Work;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Worker implements Storable {
-    private static final String FILE_NAME = "data/DATABASE";
+    private String FILE_NAME = "data/DATABASE";
+
+    Worker() {}
+
+    // constructor for testing
+    Worker(String fileName) {
+        this.FILE_NAME = fileName;
+    }
 
     @Override
     public Employee getByName(String name) {
